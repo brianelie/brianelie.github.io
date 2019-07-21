@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Patatap Project</title>
+  <link rel="stylesheet" href="Assets/CSS/style.css">
+  <script type="text/javascript" src="Assets/JS/lib/paper-full.min.js"></script>
+  <script type="text/javascript" src="Assets/JS/lib/howler.min.js"></script>
+	<script type="text/javascript" src="Assets/JS/data.js"></script>
+  <script type="text/paperscript" canvas="canvas">
+
+		var circles = [];
+
+		function onKeyDown(event) {
+			if(data[event.key]){
+				var maxPoint = new Point(view.size.width, view.size.height);
+				var randomPoint = Point.random();
+				var point = maxPoint*randomPoint;
+				var newCircle = new Path.Circle(point, 500);
+				newCircle.fillColor = data[event.key].color;
+				data[event.key].sound.play();
+				circles.push(newCircle);
+			}
+		}
+
+		function onFrame(event){
+			for(var i = 0;i<circles.length;i++){
+				circles[i].fillColor.hue += 1;
+				circles[i].scale(0.9);
+				if(circles[i].area<1){
+					circles[i].remove();
+					circles.splice(i,1);
+					console.log(circles);
+				}
+			}
+		}
+</script>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+</body>
+</html>
